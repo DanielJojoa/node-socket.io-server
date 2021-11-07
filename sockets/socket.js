@@ -1,9 +1,20 @@
-const {io} = require('../index');
-io.on('connection', (socket) => {
-    socket.on('chat message', (msg) => {
-        io.emit('chat message', msg);
+const { io } = require('../index');
+
+
+// Mensajes de Sockets
+io.on('connection', client => {
+    console.log('Cliente conectado');
+
+    client.on('disconnect', () => {
+        console.log('Cliente desconectado');
     });
-    socket.on('message', (event) => {
-        console.log(event);
-    })
-})
+
+    client.on('mensaje', ( payload ) => {
+        console.log('Mensaje', payload);
+
+        io.emit( 'mensaje', { admin: 'Nuevo mensaje' } );
+
+    });
+
+
+});
